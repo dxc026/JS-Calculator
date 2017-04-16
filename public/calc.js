@@ -206,20 +206,46 @@ $('.number').click(function(){
      }
     });
 
+var multipleOperations = false;
     $('.number').keydown(function(){
       console.log("test");
         console.log($(this).val());
         console.log($(this).value);
-        if($input0.val()==='+' || $input0.val()==='-' || $input0.val()==='*' || $input0.val()==='/'){
+        if($input0.val()==='+' || $input0.val()==='-' || $input0.val()==='*' || $input0.val()==='/' || multipleOperations===false){
 
           $input0.attr('value', $(this).val());
          }
          else{
-
+           console.log('*******' + multipleOperations);
+           if(multipleOperations===false){
             $input0.attr('value', $input0.val() + $(this).val());
+          }
+          else{
+            $input0.attr('value', $(this).val());
+            multipleOperations = false;
+          }
          }
         });
 
+var totalFunction = function(num1, op, num2){
+  if(op==='*'){
+    var total = num1 * num2;
+    $input0.attr('value', total);
+  }
+  if(op==='/'){
+    var total = num1 / num2;
+    $input0.attr('value', total);
+  }
+  if(op==='-'){
+    var total = num1 - num2;
+    $input0.attr('value', total);
+  }
+  if(op==='+'){
+    var total = parseInt(num1) + parseInt(num2);
+    $input0.attr('value', total);
+  }
+  return total;
+}
 $('#sum').click(function(){
   numTwo = $input0.val();
   if(numOne!=='' && operator!=='' && numTwo !== ''){
@@ -252,7 +278,17 @@ $('#sum').click(function(){
     });
 
 $('.operator').click(function(){
-  if($input0.val()!==''){
+  if(numOne!=='' && operator!==''){
+    console.log('multiple operations');
+    total = totalFunction(numOne, operator, $input0.val());
+    console.log(total);
+    numOne = total;
+    operator = $(this).val();
+    $input0.attr('value', total);
+    multipleOperations = true;
+    console.log('--------' + multipleOperations);
+  }
+  else if($input0.val()!==''){
   console.log("test");
     console.log($(this).val());
     console.log($(this).value);
